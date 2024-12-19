@@ -7,6 +7,7 @@ import os
 verbose = False
 zip_file_path = None
 valid_options = ['-f', '--file', '-v', '--verbose', '-h', '--help', '-r', '--rockyou', '-b', '--brute', '-d', '--dictionary', '-i', '--input', '-a', '--all', '-c', '--custom']
+number_of_threads = 1
 
 
 def print_help():
@@ -120,7 +121,7 @@ def custom_crack(pattern):
 
 
 def main():
-    global verbose, zip_file_path
+    global verbose, zip_file_path, number_of_threads
 
     options = [arg for arg in sys.argv if arg.startswith('-')]
 
@@ -140,6 +141,12 @@ def main():
     else:
         print("Error: You must specify a file to crack.")
         sys.exit(1)
+
+    if '-t' in options or '--threads' in options:
+        if '-t' in options:
+            number_of_threads = int(sys.argv[sys.argv.index('-t') + 1])
+        else:
+            number_of_threads = int(sys.argv[sys.argv.index('--threads') + 1])
 
     if option in ['-h', '--help']:
         print_help()
